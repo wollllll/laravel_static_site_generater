@@ -10,6 +10,9 @@ Route::get('/', function () {
 Auth::routes();
 Route::group(['prefix' => 'admins', 'middleware' => 'auth', 'as' => 'admins.'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::view('/', 'admins.dashboard.index')->name('dashboard.index');
+
+    Route::group(['namespace' => 'Admin'], function () {
+        Route::resource('posts', 'PostController');
+    });
 });
 
