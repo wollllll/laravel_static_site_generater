@@ -34,13 +34,13 @@ class PostController extends Controller
         ]);
 
         $html = view('admins.posts.show', compact('post'))->render();
-        Storage::put('html/' . $post->title . '.html', $html);
+        Storage::put('public/html/' . $post->title . '.html', $html);
 
         return redirect(route('admins.posts.index'));
     }
 
     public function show(Post $post)
     {
-        return Storage::get('html/' . $post->title . '.html');
+        return Storage::get('public/html/' . $post->title . '.html');
     }
 }
