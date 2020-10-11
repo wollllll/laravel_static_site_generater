@@ -7,6 +7,7 @@ use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -27,11 +28,19 @@ class PostController extends Controller
     {
         $inputs = $request->all();
 
-        Post::create([
+        $post = Post::create([
             'title' => Arr::get($inputs, 'title'),
             'content' => Arr::get($inputs, 'content'),
         ]);
 
+        $html = view('admins.posts.show', compact('post'))->render();
+        Storage::put('html/' . $post->title . '.html', $html);
+
         return redirect(route('admins.posts.index'));
+    }
+
+    public function show(Post $post)
+    {
+        return Storage::get('html/' . $post->title . '.html');
     }
 }
